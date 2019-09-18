@@ -1,0 +1,21 @@
+{
+  "name": "wiki-reader",
+  "version": "1.0.0",
+  "description": "An application that reads Wikipedia articles one paragraph at a time.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/denzildoyle/wiki-reader"
+  },
+  "keywords": [
+    "wiki",
+    "npm",
+    "nodejs",
+    "js"
+  ],
+  "author": "Denzil Doyle",
+  "license": "MIT"
+}
