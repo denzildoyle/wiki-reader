@@ -27,14 +27,14 @@ function readLine(langCode) {
     } else {
       command = line;
     }
-
+		
     console.log("Command:" + command);
     console.log("Article:" + article);
   });
 }
 
 function hasWhiteSpace(string) {
-  return string.indexOf(" ") >= 0 ? true : false;
+  return string.trim().indexOf(" ") >= 0 ? true : false;
 }
 
 function readInput(line) {}
