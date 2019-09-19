@@ -12,11 +12,11 @@ rl.question("Please enter your preferred language eg. en, nl, fr: ", answer => {
 });
 
 function readLine(langCode) {
-  //TODO: create language function to convert language code to language
-  console.log(
-    `You have selected to run this application in ${langCode} to read. Use the command READ <article> load an article or HELP to show a full list of options:`
-  );
 
+	console.log(
+    `You have selected to run this application in ${convertLangCode(langCode)} to read. Use the command READ <article> eg. (READ pizza) load an article or HELP to show a full list of options:`
+  );
+		
   rl.prompt();
 
   rl.on("line", function(line) {
@@ -116,15 +116,19 @@ function generateAPIURL(langCode, article) {
   return `https://${langCode}.wikipedia.org/w/api.php?action=query&prop=extracts&explaintext=true&titles=${article}&format=json`;
 }
 
+// TODO: Convert language code to language
+function convertLangCode(langCode) {
+	return langCode;
+}
+
 function loadParagraphs(paragraphs) {
-  var index = 1;
+  var index = 0;
   var stdin = process.stdin;
 	
 	stdin.resume();
   stdin.setEncoding("utf8");
 	
-	// show first paragraph
-	console.log(paragraphs[0]);
+	console.log("Use the down array [\u2193] to load article one paragraph at a time");
 
 	// get key press
 	stdin.on("data", function(key) {
@@ -133,7 +137,7 @@ function loadParagraphs(paragraphs) {
 			// down arrow pressed
 			case "\u001b[B":
 				if (index < paragraphs.length) {
-					console.log("\n\n" + paragraphs[index]);
+					console.log("\n" + paragraphs[index]);
 					index++;
 				} else {
 					console.log("\n\nYou have come to the end of the article");
