@@ -1,3 +1,9 @@
+import {
+  processLine,
+  generateAPIURL,
+  convertLangCode
+} from "./util";
+
 const fetch = require("node-fetch");
 const readline = require("readline");
 
@@ -97,28 +103,6 @@ function readLine(langCode) {
         break;
     }
 	});
-}
-
-function processLine(line) {
-	line = line.trim();
-  if (hasWhiteSpace(line) == true) {
-		return line.split(" ").filter(Boolean);
-  } else {
-    return [line];
-  }
-}
-
-function hasWhiteSpace(string) {
-  return string.indexOf(" ") >= 0 ? true : false;
-}
-
-function generateAPIURL(langCode, article) {
-  return `https://${langCode}.wikipedia.org/w/api.php?action=query&prop=extracts&explaintext=true&titles=${article}&format=json`;
-}
-
-// TODO: Convert language code to language
-function convertLangCode(langCode) {
-	return langCode;
 }
 
 function loadParagraphs(paragraphs) {
