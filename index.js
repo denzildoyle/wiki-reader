@@ -45,7 +45,7 @@ function readLine(langCode) {
                 .split(/\n/)
                 .filter(Boolean);
 
-							console.log(paragraphs[0]);
+							loadParagraphs(paragraphs);
             })
             .catch(err => console.error("Error retrieving article: " + err));
         }
@@ -114,4 +114,43 @@ function hasWhiteSpace(string) {
 
 function generateAPIURL(langCode, article) {
   return `https://${langCode}.wikipedia.org/w/api.php?action=query&prop=extracts&explaintext=true&titles=${article}&format=json`;
+}
+
+function loadParagraphs(paragraphs) {
+  var index = 1;
+  var stdin = process.stdin;
+	
+	stdin.resume();
+  stdin.setEncoding("utf8");
+	
+	// show first paragraph
+	console.log(paragraphs[0]);
+
+	// get key press
+	stdin.on("data", function(key) {
+		switch (key) {
+			
+			// down arrow pressed
+			case "\u001b[B":
+				if (index < paragraphs.length) {
+					console.log("\n\n" + paragraphs[index]);
+					index++;
+				} else {
+					console.log("\n\nYou have come to the end of the article");
+					process.exit();
+				}
+				break;
+
+			// quit
+			case "Q":
+				process.exit();
+				break;
+			
+			default:
+				console.log(
+          "\n\nUse the down array [\u2193] to go to the next paragraph or [Q] to quit"
+        );
+				break;
+		}
+  });
 }
