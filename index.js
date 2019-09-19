@@ -1,21 +1,28 @@
-const fetch = require("node-fetch");
+// const fetch = require("node-fetch");
 const readline = require("readline");
-
-var article = "pizza";
 
 var rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
 
-rl.prompt();
-
+// get the user language preference 
 rl.question("Please enter your preferred language eg. en, nl, fr: ", answer => {
-  var langCode = answer;
-  console.log(langCode);
+  readLine(answer);
 });
 
+function readLine(langCode) {
+  //TODO: create language function to convert language code to language 
+  console.log(`You have selected to run this application in ${langCode} to read. Use the command READ <article> load an article or HELP to show a full list of options:`);
+  
+  rl.prompt();
+  
+  rl.on("line", function(line) {
+    console.log(line);
+  });
+}
 
+// var article = "pizza";
 // var url = `https://${langCode}.wikipedia.org/w/api.php?action=query&prop=extracts&explaintext=true&titles=${article}&format=json`;
 
 // fetch(url)
