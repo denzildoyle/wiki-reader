@@ -20,21 +20,23 @@ function readLine(langCode) {
   rl.prompt();
 
   rl.on("line", function(line) {
-    if (hasWhiteSpace(line) == true) {
-      var lineArray = line.split(" ");
-      command = lineArray[0];
-      article = line.replace(lineArray[0] + " ", "");
-    } else {
-      command = line;
-    }
-		
-    console.log("Command:" + command);
-    console.log("Article:" + article);
+    console.log(processLine(line));
   });
 }
 
+function processLine(line) {
+	line = line.trim();
+	
+  if (hasWhiteSpace(line) == true) {
+    var lineArray = line.split(" ").filter(Boolean);
+		return lineArray;
+  } else {
+    return [ line ];
+  }
+}
+
 function hasWhiteSpace(string) {
-  return string.trim().indexOf(" ") >= 0 ? true : false;
+  return string.indexOf(" ") >= 0 ? true : false;
 }
 
 function readInput(line) {}
