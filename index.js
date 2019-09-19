@@ -2,7 +2,7 @@ import {
   processLine,
   generateAPIURL,
   convertLangCode
-} from "./util";
+} from "./utils";
 
 const fetch = require("node-fetch");
 const readline = require("readline");
