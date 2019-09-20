@@ -1,1 +1,1 @@
-import { processLine, generateAPIURL, convertLangCode } from "./utils";
+const { processLine, generateAPIURL, convertLangCode } = require("./utils.js");

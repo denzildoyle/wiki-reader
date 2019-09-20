@@ -1,9 +1,4 @@
-import {
-  processLine,
-  generateAPIURL,
-  convertLangCode
-} from "./utils";
-
+const { processLine, generateAPIURL, convertLangCode } = require("./utils.js");
 const fetch = require("node-fetch");
 const readline = require("readline");
 
