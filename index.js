@@ -1,4 +1,10 @@
-const { processLine, generateAPIURL, convertLangCode } = require("./utils.js");
+const {
+  processLine,
+  generateAPIURL,
+  convertLangCode,
+  randomArticleURL
+} = require("./utils.js");
+
 const fetch = require("node-fetch");
 const readline = require("readline");
 
@@ -12,25 +18,27 @@ rl.question("Please enter your preferred language eg. en, nl, fr: ", answer => {
   readLine(answer);
 });
 
-function readLine(langCode) {
+var article = "";
 
-	console.log(
-    `You have selected to run this application in ${convertLangCode(langCode)} to read. Use the command READ <article> eg. (READ pizza) load an article or HELP to show a full list of options:`
+function readLine(langCode) {
+  console.log(
+    `You have selected to run this application in ${convertLangCode(
+      langCode
+    )} to read. Use the command READ <article> eg. (READ pizza) load an article or HELP to show a full list of options:`
   );
-		
+
   rl.prompt();
 
   rl.on("line", function(line) {
-
-		lineArray = processLine(line);
-		if (lineArray.length > 1) {
+    lineArray = processLine(line);
+    if (lineArray.length > 1) {
       command = lineArray[0];
       article = lineArray[1];
     } else {
       command = lineArray[0];
     }
-		
-		switch (command.toUpperCase()) {
+
+    switch (command.toUpperCase()) {
       case "READ":
         if (article == "") {
           console.log("You must enter an ARTICLE to use the READ command.");
@@ -41,12 +49,12 @@ function readLine(langCode) {
               paragraphs = data.query.pages[
                 Object.keys(data.query.pages)
               ].extract
-								.replace("\t", "")
-								.replace(/\n\s*\n/g, '\n')
+                .replace("\t", "")
+                .replace(/\n\s*\n/g, "\n")
                 .split(/\n/)
                 .filter(Boolean);
 
-							loadParagraphs(paragraphs);
+              loadParagraphs(paragraphs, article);
             })
             .catch(err => console.error("Error retrieving article: " + err));
         }
@@ -56,6 +64,29 @@ function readLine(langCode) {
         break;
 
       case "RANDOM":
+        fetch(randomArticleURL())
+          .then(response => response.json())
+          .then(data => {
+            randomTitle = data.query.random[0].title;
+
+            fetch(
+              generateAPIURL(langCode, randomTitle))
+                .then(response => response.json())
+                .then(data => {
+                  paragraphs = data.query.pages[
+                    Object.keys(data.query.pages)
+                  ].extract
+                    .replace("\t", "")
+                    .replace(/\n\s*\n/g, "\n")
+                    .split(/\n/)
+                    .filter(Boolean);
+
+                  loadParagraphs(paragraphs, randomTitle);
+                })
+                .catch(err => console.error("Error retrieving article: " + err))
+          })
+          .catch(err => console.error("Error retrieving article: " + err))
+          
         break;
 
       case "ABOUT":
@@ -97,10 +128,10 @@ function readLine(langCode) {
         );
         break;
     }
-	});
+  });
 }
 
-function loadParagraphs(paragraphs) {
+function loadParagraphs(paragraphs, article) {
   var index = 0;
   var stdin = process.stdin;
 	
@@ -108,7 +139,8 @@ function loadParagraphs(paragraphs) {
   stdin.setEncoding("utf8");
 	
 	console.log("Use the down array [\u2193] to load article one paragraph at a time");
-
+  console.log("Article Title: " + article);
+  
 	// get key press
 	stdin.on("data", function(key) {
 		switch (key) {
