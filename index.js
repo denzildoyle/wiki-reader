@@ -2,7 +2,8 @@ const {
   processLine,
   generateAPIURL,
   convertLangCode,
-  randomArticleURL
+  randomArticleURL,
+  getArticles
 } = require("./utils.js");
 
 const fetch = require("node-fetch");
@@ -43,18 +44,9 @@ function readLine(langCode) {
         if (article == "") {
           console.log("You must enter an ARTICLE to use the READ command.");
         } else {
-          fetch(generateAPIURL(langCode, article))
-            .then(response => response.json())
+          getArticles(generateAPIURL(langCode, article))
             .then(data => {
-              paragraphs = data.query.pages[
-                Object.keys(data.query.pages)
-              ].extract
-                .replace("\t", "")
-                .replace(/\n\s*\n/g, "\n")
-                .split(/\n/)
-                .filter(Boolean);
-
-              loadParagraphs(paragraphs, article);
+              loadParagraphs(data.paragraphs, data.article);
             })
             .catch(err => console.error("Error retrieving article: " + err));
         }
@@ -64,29 +56,11 @@ function readLine(langCode) {
         break;
 
       case "RANDOM":
-        fetch(randomArticleURL())
-          .then(response => response.json())
+        getArticles(randomArticleURL(langCode))
           .then(data => {
-            randomTitle = data.query.random[0].title;
-
-            fetch(
-              generateAPIURL(langCode, randomTitle))
-                .then(response => response.json())
-                .then(data => {
-                  paragraphs = data.query.pages[
-                    Object.keys(data.query.pages)
-                  ].extract
-                    .replace("\t", "")
-                    .replace(/\n\s*\n/g, "\n")
-                    .split(/\n/)
-                    .filter(Boolean);
-
-                  loadParagraphs(paragraphs, randomTitle);
-                })
-                .catch(err => console.error("Error retrieving article: " + err))
+            loadParagraphs(data.paragraphs, data.article);
           })
-          .catch(err => console.error("Error retrieving article: " + err))
-          
+          .catch(err => console.error("Error retrieving article: " + err));
         break;
 
       case "ABOUT":
