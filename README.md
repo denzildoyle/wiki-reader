@@ -2,9 +2,13 @@
 
 A small command line [REPL](https://en.wikipedia.org/wiki/Read-eval-print_loop) that accepts the following commands to read articles from wikipedia.org 
 
-## How to run
+## Setup and Running
 
-To run the app, run the command `node index.js`
+### `npm install`
+To install all dependencies
+
+### `npm start`
+Runs the app in your terminal
 
 ## Commands
 
@@ -16,14 +20,6 @@ Exit the application.
 
 ### `HELP`
 Print the available commands with a short description.
-
-## Setup and Running
-
-### `npm install`
-To install all dependencies
-
-### `node index.js`
-Runs the app in in your terminal
 
 ## Dependencies
 
