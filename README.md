@@ -2,6 +2,10 @@
 
 A small command line [REPL](https://en.wikipedia.org/wiki/Read-eval-print_loop) that accepts the following commands to read articles from wikipedia.org 
 
+## How to run
+
+To run the app, run the command `node index.js`
+
 ## Commands
 
 ### `READ <article>`

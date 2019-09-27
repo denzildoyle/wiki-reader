@@ -4,6 +4,7 @@
   "description": "An application that reads Wikipedia articles one paragraph at a time.",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "jest --watch"
   },
   "repository": {
